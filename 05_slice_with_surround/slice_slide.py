@@ -4,8 +4,8 @@ from pathlib import Path
 import natsort
 
 def slice_slide_one(img_path):
-    out_height = 400
-    out_width = 400
+    out_height = 500
+    out_width = 500
     overlap_height=100
     overlap_width=100
     slide_height=out_height-overlap_height
@@ -30,11 +30,11 @@ def slice_slide_one(img_path):
                 end=2
             a = im.crop(box)
             first_name=str(Path(img_path).stem).zfill(4)
-            a.save(os.path.join("Vahingen/test/", first_name+"_%04d.png" % k))
+            a.save(os.path.join("Vahingen/test_out/", first_name+"_%04d.png" % k))
             k += 1
 
 
-IMG_Path = Path("F:\图像数据集\ISPRS遥感图像分割\Vaihingen\自己整理的\\train_8_edit\\train_gt_full")
+IMG_Path = Path("Vahingen/test/")
 IMG_File = natsort.natsorted(list(IMG_Path.glob('*.tif')))
 IMG_Str = []
 for i in IMG_File:
