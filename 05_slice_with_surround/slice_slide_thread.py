@@ -43,13 +43,12 @@ IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
 
-pool=ThreadPool(6)
+pool=ThreadPool(1)
 #单参数用 pool.map
-pool.starmap(compute_one,zip(IMG_Str,GT_Str))
+pool.map(slice_slide_one,IMG_Str)
 pool.close()
 pool.join()
-for j in IMG_Str:
-    slice_slide_one(j)
+
 
 
 
