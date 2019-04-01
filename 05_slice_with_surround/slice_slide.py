@@ -4,8 +4,9 @@ from pathlib import Path
 import natsort
 
 def slice_slide_one(img_path):
-    out_height = 500
-    out_width = 500
+    out_height = 512
+    out_width = 512
+    #for validate set, overlap=0
     overlap_height=100
     overlap_width=100
     slide_height=out_height-overlap_height
