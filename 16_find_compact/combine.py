@@ -42,7 +42,7 @@ for i in IMG_File:
     IMG_Str.append(str(i))
 pic_small=[]
 for j in range(0,len(IMG_Str)):
-    pic_small.append(cv.imread(IMG_Str[j],cv.IMREAD_COLOR))
+    pic_small.append(cv.cvtColor(cv.imread(IMG_Str[j],cv.IMREAD_COLOR),cv.COLOR_BGR2RGB))
 
 Out_path = "ceshi"
 combine_one(pic_small,"area4_pred",1887,2557)
