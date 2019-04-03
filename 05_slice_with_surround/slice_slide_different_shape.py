@@ -30,11 +30,11 @@ def slice_slide_one(img_path):
                 box = (j, i, imgwidth, imgheight)
             a = im.crop(box)
             first_name=str(Path(img_path).stem).zfill(4)
-            a.save(os.path.join("Postdam/train_18_val_20/different_shape_val/", first_name+"_%04d.png" % k))
+            a.save(os.path.join("Postdam/train_18_val_20/different_shape_val_gt_full/", first_name+"_%04d.png" % k))
             k += 1
 
 
-IMG_Path = Path("E:\code\hotkey\\17_post_proc\Postdam\\from-pytorch-train\data14\\val")
+IMG_Path = Path("E:\code\hotkey\\17_post_proc\Postdam\\from-pytorch-train\data14\\val_gt_full")
 IMG_File = natsort.natsorted(list(IMG_Path.glob('*.tif')))
 IMG_Str = []
 for i in IMG_File:
