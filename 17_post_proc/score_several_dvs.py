@@ -40,7 +40,8 @@ def compute_one(img_path,gt_path):
     out = load_image(img_path)
     # gt = load_image(gt_path)
     # 不要用interpolation=cv.INTER_NEAREST,不然结果不一样，估计opencv bug
-    gt = cv.resize(load_image(gt_path),(512,256),cv.INTER_NEAREST)
+    # 上面说法错了,要用interpolation=cv.INTER_NEAREST
+    gt = cv.resize(load_image(gt_path),(512,256),interpolation=cv.INTER_NEAREST)
     # val_gt_erode paired with [0,0,0]label value
     # label order: R G B
     # num_classes = len(label_values)
