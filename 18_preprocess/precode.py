@@ -22,3 +22,4 @@ for k in tqdm(range(len(GT_Str))):
     out_str=out_prefix+Path(GT_Str[k]).name
     cv.imwrite(out_str,out)
     # print("kk")
+

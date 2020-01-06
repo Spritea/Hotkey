@@ -8,7 +8,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 def slice_slide_one(img_path):
     out_height = 512
     out_width = 512
-    #for validate set, overlap=0
+    #for validate set, overlap must=0
     overlap_height=100
     overlap_width=100
     slide_height=out_height-overlap_height
@@ -33,17 +33,17 @@ def slice_slide_one(img_path):
                 end=2
             a = im.crop(box)
             first_name=str(Path(img_path).stem).zfill(4)
-            a.save(os.path.join("Vahingen/test_out/", first_name+"_%04d.png" % k))
+            a.save(os.path.join("GID/train_33_val_8_small/train/", first_name+"_%04d.png" % k))
             k += 1
 
 
-IMG_Path = Path("Vahingen/test/")
+IMG_Path = Path("GID/train_33_val_8/train/")
 IMG_File = natsort.natsorted(list(IMG_Path.glob('*.tif')))
 IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
 
-pool=ThreadPool(1)
+pool=ThreadPool(4)
 #单参数用 pool.map
 pool.map(slice_slide_one,IMG_Str)
 pool.close()
