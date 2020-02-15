@@ -21,7 +21,7 @@ for i in GT_File:
 
 class_num=8
 img_num=41
-test_num=4
+test_num=3
 pixels_each_img=[]
 color_all=[0]*class_num
 

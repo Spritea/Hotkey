@@ -3,8 +3,7 @@ import numpy as np
 import random
 from pathlib import Path
 import natsort
-import math
-
+from tqdm import tqdm
 
 def augment(input_image, output_image, h_flip=0, v_flip=0, brightness=0, rotation=0):
     # Data augmentation
@@ -39,39 +38,46 @@ def augment(input_image, output_image, h_flip=0, v_flip=0, brightness=0, rotatio
     return input_image, output_image
 
 
-IMG_Path = Path("off")
-IMG_File = natsort.natsorted(list(IMG_Path.glob("*.tiff")), alg=natsort.PATH)
+IMG_Path = Path("../18_preprocess/GID_name_in_order/7class/train38_val3/train")
+IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
 IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
 
-GT_Path = Path("off")
-GT_File = natsort.natsorted(list(GT_Path.glob("*.bmp")), alg=natsort.PATH)
+GT_Path = Path("../18_preprocess/GID_name_in_order/7class/train38_val3/train_gt")
+GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
     GT_Str.append(str(i))
 
 h_flip = 0
-v_flip = 0
+v_flip = 1
 brightness = 0
-rotation = 90
+rotation = 0
 
-for k in range(len(IMG_Str)):
-    ori_out, gt_out = augment(cv.imread(IMG_Str[k]), cv.imread(GT_Str[k]), h_flip=h_flip, v_flip=v_flip,
+IMG_Path_out='../15_opencv_augmentor/GID/train38_val3/train/'
+GT_Path_out='../15_opencv_augmentor/GID/train38_val3/train_gt/'
+
+IMG_out_type='.png'
+GT_out_type='.png'
+
+
+for k in tqdm(range(len(IMG_Str))):
+    ori_out, gt_out = augment(cv.imread(IMG_Str[k]), cv.imread(GT_Str[k],-1), h_flip=h_flip, v_flip=v_flip,
                               brightness=brightness, rotation=rotation)
-
+    #-1用来保证单通道进去的标签别自动变成3通道
     if h_flip > 0:
-        ori_name = "angle/ori/" + Path(IMG_Str[k]).stem + "_h" + ".bmp"
-        gt_name = "angle/gt/" + Path(GT_Str[k]).stem + "_h" + ".bmp"
+        ori_name = IMG_Path_out + Path(IMG_Str[k]).stem + "_h" + IMG_out_type
+        gt_name = GT_Path_out + Path(GT_Str[k]).stem + "_h" + GT_out_type
     elif v_flip > 0:
-        ori_name = "angle/ori/" + Path(IMG_Str[k]).stem + "_v" + ".bmp"
-        gt_name = "angle/gt/" + Path(GT_Str[k]).stem + "_v" + ".bmp"
+        ori_name = IMG_Path_out + Path(IMG_Str[k]).stem + "_v" + IMG_out_type
+        gt_name = GT_Path_out + Path(GT_Str[k]).stem + "_v" + GT_out_type
     elif brightness > 0:
-        ori_name = "angle/ori/" + Path(IMG_Str[k]).stem + "_b" + str(brightness) + ".bmp"
-        gt_name = "angle/gt/" + Path(GT_Str[k]).stem + "_b" + str(brightness) + ".bmp"
+        ori_name = IMG_Path_out + Path(IMG_Str[k]).stem + "_b" + str(brightness) + IMG_out_type
+        gt_name = GT_Path_out + Path(GT_Str[k]).stem + "_b" + str(brightness) + GT_out_type
     elif rotation > 0:
-        ori_name = "angle/ori/" + Path(IMG_Str[k]).stem + "_r" + str(rotation) + ".bmp"
-        gt_name = "angle/gt/" + Path(GT_Str[k]).stem + "_r" + str(rotation) + ".bmp"
+        ori_name = IMG_Path_out + Path(IMG_Str[k]).stem + "_r" + str(rotation) + IMG_out_type
+        gt_name = GT_Path_out + Path(GT_Str[k]).stem + "_r" + str(rotation) + GT_out_type
     else:
         print("Choose one and only one ops! ")
 

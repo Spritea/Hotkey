@@ -9,8 +9,8 @@ def slice_slide_one(img_path):
     out_height = 512
     out_width = 512
     #for validate set, overlap must=0
-    overlap_height=100
-    overlap_width=100
+    overlap_height=0
+    overlap_width=0
     slide_height=out_height-overlap_height
     slide_width=out_width-overlap_width
     # slide_height=100
@@ -32,13 +32,13 @@ def slice_slide_one(img_path):
                 box = (imgwidth - out_width, imgheight - out_height, imgwidth, imgheight)
                 end=2
             a = im.crop(box)
-            # first_name=str(Path(img_path).stem).zfill(4)
-            a.save(os.path.join("GID/7class/train37_val4_small/train/", "%05d.png" % k))
+            first_name=str(Path(img_path).stem).zfill(4)
+            a.save(os.path.join("GID/7class/train38_val3_small/val_gt/", first_name+"%04d.png" % k))
             k += 1
 
 
-IMG_Path = Path("GID/7class/train37_val4/train")
-IMG_File = natsort.natsorted(list(IMG_Path.glob('*.tif')))
+IMG_Path = Path("GID/7class/train38_val3/val_gt")
+IMG_File = natsort.natsorted(list(IMG_Path.glob('*.png')))
 IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
