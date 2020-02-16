@@ -8,19 +8,20 @@ def load_image(path):
     image = cv.cvtColor(cv.imread(path, 1), cv.COLOR_BGR2RGB)
     return image
 
-GT_Path = Path("GID/7class/label_remove_class")
+GT_Path = Path("SCPA-WC_name_in_order/val_gt")
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
     GT_Str.append(str(i))
 
-out_prefix="GID/7class/label_precode/"
+out_prefix="SCPA-WC_precode/val_gt/"
 # label_values_GID_9 = [[0,0,0], [0,0,200],[250,150,150],[250,200,0],[0,200,0],[200,0,200],[200,0,0],[250,0,150],[200,150,150]]
 # label_values_GID_16=[[0,0,0],[0,200,0],[150,250,0],[150,200,150],[200,0,200],[150,0,250],[150,150,250],[250,200,0],[200,200,0],[200,0,0],[250,0,150],[200,150,150],[250,150,150],[0,0,200],[0,150,200],[0,200,250]]
-label_values_GID_8 = [[0,0,0], [150,250,0],[0,200,0],[200,0,200],[250,200,0],[200,0,0],[250,150,150],[0,0,200]]
+# label_values_GID_8 = [[0,0,0], [150,250,0],[0,200,0],[200,0,200],[250,200,0],[200,0,0],[250,150,150],[0,0,200]]
+label_values_RGB_SCPA_WC = [[0,0,0], [128,0,0],[0,128,0],[128,128,0],[0,0,128],[128,0,128],[0,128,128]]
 for k in tqdm(range(len(GT_Str))):
     gt=load_image(GT_Str[k])
-    out=util.reverse_one_hot(util.one_hot_it(gt,label_values_GID_8))
+    out=util.reverse_one_hot(util.one_hot_it(gt,label_values_RGB_SCPA_WC))
     out_str=out_prefix+Path(GT_Str[k]).name
     cv.imwrite(out_str,out)
     # print("kk")
