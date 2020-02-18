@@ -4,7 +4,9 @@ from pathlib import Path
 import natsort
 from PIL import Image
 from tqdm import tqdm
+import util
 
+#以下是combine_several_SCPA.py直接复制的
 # 包括边边也拼起来
 def combine_one(imgs_list, img_path, imgwidth, imgheight):
     im = Image.fromarray(imgs_list[0])
@@ -58,3 +60,23 @@ for k in tqdm(range(large_number)):
     out_path_prefix = "SCPA_WC/large/color/frrnb/"
     out_name = str(k)+ '_pred.png'
     combine_one(pic_small, out_name, width, height)
+
+#以下是18_preprocee里precode.py直接复制的
+def load_image(path):
+    image = cv.cvtColor(cv.imread(path, 1), cv.COLOR_BGR2RGB)
+    return image
+
+GT_Path = Path("../16_find_compact/SCPA_WC/large/color/frrnb")
+GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
+GT_Str = []
+for i in GT_File:
+    GT_Str.append(str(i))
+
+out_prefix="../16_find_compact/SCPA_WC/large/precode/frrnb/"
+label_values_RGB_SCPA_WC = [[0,0,0], [128,0,0],[0,128,0],[128,128,0],[0,0,128],[128,0,128],[0,128,128]]
+for k in tqdm(range(len(GT_Str))):
+    gt=load_image(GT_Str[k])
+    out=util.reverse_one_hot(util.one_hot_it(gt,label_values_RGB_SCPA_WC))
+    out_str=out_prefix+Path(GT_Str[k]).name
+    cv.imwrite(out_str,out)
+    # print("kk")

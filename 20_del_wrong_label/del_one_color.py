@@ -45,6 +45,7 @@ for cnt in contours:
     if area < 50:
         fill_color_coor=get_right_point(a)
         fill_color=pic[fill_color_coor[1],fill_color_coor[0]]
+        #设某个点的坐标为[i,j],那么从pic上取它应该写成pic[j,i],注意是反的
         fill_color_tuple=(int(fill_color[0]),int(fill_color[1]),int(fill_color[2]))
         if a.shape[0]==1:
             pic[a[0][1]][a[0][0]]=fill_color
@@ -55,7 +56,7 @@ for cnt in contours:
 
 # cv.drawContours(empty_color,contours,-1,(0,0,255),2)
 
-cv.imwrite('out.png',pic)
+cv.imwrite('out_fcn.png',pic)
 # cv.imshow('kk',empty_2)
 # cv.waitKey(0)
 

@@ -2,14 +2,10 @@ import cv2 as cv
 import util
 import numpy as np
 import time
-
 from pathlib import Path
 import natsort
 
 from metrics_my import runningScore
-from tqdm import tqdm
-from multiprocessing.dummy import Pool as ThreadPool
-
 
 def load_image(path):
     image = cv.cvtColor(cv.imread(path, 1), cv.COLOR_BGR2RGB)

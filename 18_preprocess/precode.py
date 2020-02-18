@@ -8,13 +8,13 @@ def load_image(path):
     image = cv.cvtColor(cv.imread(path, 1), cv.COLOR_BGR2RGB)
     return image
 
-GT_Path = Path("SCPA-WC_name_in_order/val_gt")
+GT_Path = Path("../16_find_compact/SCPA_WC/train_gt/color")
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
     GT_Str.append(str(i))
 
-out_prefix="SCPA-WC_precode/val_gt/"
+out_prefix="../16_find_compact/SCPA_WC/train_gt/precode/"
 # label_values_GID_9 = [[0,0,0], [0,0,200],[250,150,150],[250,200,0],[0,200,0],[200,0,200],[200,0,0],[250,0,150],[200,150,150]]
 # label_values_GID_16=[[0,0,0],[0,200,0],[150,250,0],[150,200,150],[200,0,200],[150,0,250],[150,150,250],[250,200,0],[200,200,0],[200,0,0],[250,0,150],[200,150,150],[250,150,150],[0,0,200],[0,150,200],[0,200,250]]
 # label_values_GID_8 = [[0,0,0], [150,250,0],[0,200,0],[200,0,200],[250,200,0],[200,0,0],[250,150,150],[0,0,200]]
