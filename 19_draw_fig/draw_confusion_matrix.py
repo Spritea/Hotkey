@@ -22,8 +22,6 @@ def img_to_label_list(GT_path,PRED_path):
                         (255, 228, 181), (250, 235, 215), (95, 158, 160), (0, 250, 154),
                         (255, 255, 0), (255, 239, 213), (255, 235, 205)]
 
-    gt = []
-    pred = []
     GT_precode = util.reverse_one_hot(util.one_hot_it(GT_img, label_values_RGB))
     PRED_precode = util.reverse_one_hot(util.one_hot_it(PRED_img, label_values_RGB))
     GT_flat = GT_precode.flatten()
@@ -76,5 +74,6 @@ str_class_list=[]
 for i in range(len(class_list)):
     str_class_list.append(str(class_list[i]))
 attack_types =str_class_list
+# plot_confusion_matrix(cm,classes=attack_types)
 plot_confusion_matrix(cm,classes=attack_types)
 plt.show()

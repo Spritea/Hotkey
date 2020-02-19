@@ -8,9 +8,21 @@ import time
 
 #注意：下面这个绘图在y轴的yticks这个函数上有问题，上下会被截去一半
 #在ubuntu系统下跑就可以
-def img_to_label_list_not_for_change_type(GT_path,PRED_path,label_values_RGB):
+def img_to_label_list(GT_path,PRED_path):
     GT_img = cv.cvtColor(cv.imread(GT_path, 1), cv.COLOR_BGR2RGB)
     PRED_img = cv.cvtColor(cv.imread(PRED_path, 1), cv.COLOR_BGR2RGB)
+    label_values_RGB = [(0, 0, 0), (255, 250, 250), (248, 248, 255), (211, 211, 211),
+                        (255, 99, 71), (255, 250, 240), (139, 69, 19), (250, 240, 230),
+                        (0, 206, 209), (255, 215, 0), (205, 92, 92), (255, 228, 196),
+                        (255, 218, 185), (255, 222, 173), (175, 238, 238), (255, 248, 220),
+                        (47, 79, 79), (255, 250, 205), (255, 245, 238), (240, 255, 240),
+                        (245, 255, 250), (240, 255, 255), (240, 248, 255), (230, 230, 250),
+                        (255, 240, 245), (255, 228, 225), (255, 255, 240), (105, 105, 105),
+                        (112, 128, 144), (190, 190, 190), (245, 245, 245), (100, 149, 237),
+                        (65, 105, 225), (0, 191, 255), (135, 206, 250), (70, 130, 180),
+                        (255, 228, 181), (250, 235, 215), (95, 158, 160), (0, 250, 154),
+                        (255, 255, 0), (255, 239, 213), (255, 235, 205)]
+
     GT_precode = util.reverse_one_hot(util.one_hot_it(GT_img, label_values_RGB))
     PRED_precode = util.reverse_one_hot(util.one_hot_it(PRED_img, label_values_RGB))
     GT_flat = GT_precode.flatten()
@@ -18,7 +30,7 @@ def img_to_label_list_not_for_change_type(GT_path,PRED_path,label_values_RGB):
     return GT_flat,PRED_flat
 
 # 绘制混淆矩阵
-def plot_confusion_matrix(cm, classes, normalize=False, title='Land class change matrix', cmap=plt.cm.viridis):
+def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.plasma):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
@@ -50,19 +62,25 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Land class change
         # 下面这个搭配cmap=plt.cm.viridis使用
         plt.text(j, i, format(cm[i, j], fmt),va="center",ha="center",
                           color="white")
-
     # plt.tight_layout()
-    plt.ylabel('Source image')
-    plt.xlabel('Destination image')
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.show()
 
+GT_path='../21_determine_change_type/change_type_candy/out_test_filter_ps.png'
+PRED_path='../21_determine_change_type/change_type_candy/out_fcn.png'
+# GT_path='gt.png'
+# PRED_path='pred.png'
 t=time.time()
-GT_path='../16_find_compact/SCPA_WC/large/color/fcn8s/0_pred.png'
-PRED_path='../16_find_compact/SCPA_WC/large/color/fcn8s/1_pred.png'
-label_values_RGB_SCPA_WC=[[0,0,0], [128,0,0],[0,128,0],[128,128,0],[0,0,128],[128,0,128],[0,128,128]]
-gt,pred=img_to_label_list_not_for_change_type(GT_path,PRED_path,label_values_RGB_SCPA_WC)
+gt,pred=img_to_label_list(GT_path,PRED_path)
 cm=confusion_matrix(gt,pred)
-class_str_list=['Backgroung','Farmland','Bare land','Industrial area','Parking area','Residential area','Water body']
-plot_confusion_matrix(cm,classes=class_str_list)
-tt=time.time()-t
-print('Time: %f'%tt)
+#cm太大了，用part_cm取一部分来画
+part_cm=cm[0:10,0:10]
+# class_list=range(cm.shape[0])
+class_list=range(part_cm.shape[0])
+str_class_list=['(0,0)','(0,1)','(0,2)','(0,3)','(0,4)','(0,5)','(0,6)','(1,0)','(1,2)','(1,3)']
+# plot_confusion_matrix(cm,classes=attack_types)
+plot_confusion_matrix(part_cm,classes=str_class_list)
 plt.show()
+tt=time.time()-t
+print("time:%f"%tt)
