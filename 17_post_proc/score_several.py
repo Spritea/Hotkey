@@ -7,6 +7,13 @@ import natsort
 
 from metrics_my import runningScore
 
+#注意：这个里面平均f1计算有问题，因为precision或recall等于0的时候，
+#即混淆矩阵中某行或某列为空，f1就成None了
+#而不是像IoU一样，只有当行与列同时为空的时候，IoU才变成None
+#这样会导致算平均f1的时候，总类数变少了，从而结果偏大
+#要改正的话，算f1也应该用2TP/2TP+FP+FN来计算，而不是通过precision和recall来计算
+#这也是sklearn采用的方式，即只有某行或某列为空时，f1给0值，保证总类数不因此减少
+
 def load_image(path):
     image = cv.cvtColor(cv.imread(path, 1), cv.COLOR_BGR2RGB)
     return image

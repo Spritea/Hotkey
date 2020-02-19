@@ -57,7 +57,8 @@ class runningScore(object):
 
         cls_f1 = 2 * cls_pre * cls_rec / (cls_pre + cls_rec)
         mean_f1 = np.nanmean(cls_f1)
-        return acc,cls_pre,cls_rec,cls_f1, iu, hist
+        my_f1=2*np.diag(hist) / (hist.sum(axis=1) + hist.sum(axis=0))
+        return acc,cls_pre,cls_rec,cls_f1, iu, hist,my_f1
 
     def reset(self):
         self.confusion_matrix = np.zeros((self.n_classes, self.n_classes))
