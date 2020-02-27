@@ -43,7 +43,9 @@ def combine_one(imgs_list, img_path, imgwidth, imgheight):
 
 one_large_contain_small = 49
 # 这个是一张大图包括多少张小图
-IMG_Path = Path("SCPA_WC/small/refine50")
+
+model_folder_name='dplv3p'
+IMG_Path = Path("SCPA_WC/bs12/small/"+model_folder_name)
 refer_large_img = cv.imread("SCPA_WC/test_gt/color/2002-test.png")
 height, width, _ = refer_large_img.shape
 IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
@@ -53,6 +55,7 @@ for i in IMG_File:
 large_number = int(len(IMG_Str) / one_large_contain_small)
 # 这个是一共能拼成几张大图
 
+large_path='SCPA_WC/bs12/large/color/'+model_folder_name+'/'
 id_start = 0
 for k in tqdm(range(large_number)):
     pic_small = []
@@ -60,7 +63,7 @@ for k in tqdm(range(large_number)):
     for j in range(id_start, id_stop):
         pic_small.append(cv.cvtColor(cv.imread(IMG_Str[j], cv.IMREAD_COLOR), cv.COLOR_BGR2RGB))
     id_start += one_large_contain_small
-    out_path_prefix = "SCPA_WC/large/color/refine50/"
+    out_path_prefix = large_path
     out_name = str(k) + '_pred.png'
     combine_one(pic_small, out_name, width, height)
 
@@ -71,13 +74,13 @@ def load_image(path):
     return image
 
 
-GT_Path = Path("SCPA_WC/large/color/refine50")
+GT_Path = Path(large_path)
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
     GT_Str.append(str(i))
 
-out_prefix = "SCPA_WC/large/precode/refine50/"
+out_prefix = "SCPA_WC/bs12/large/precode/"+model_folder_name+'/'
 label_values_RGB_SCPA_WC = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128],
                             [0, 128, 128]]
 for k in tqdm(range(len(GT_Str))):
@@ -88,8 +91,8 @@ for k in tqdm(range(len(GT_Str))):
     # print("kk")
 
 # 以下是21_determine_change_type/decide_change_type.py直接复制的
-source_path = "SCPA_WC/large/precode/refine50/0_pred.png"
-dest_path = "SCPA_WC/large/precode/refine50/1_pred.png"
+source_path = out_prefix+'0_pred.png'
+dest_path = out_prefix+'1_pred.png'
 source_img = cv.cvtColor(cv.imread(source_path, ), cv.COLOR_BGR2RGB)
 dest_img = cv.cvtColor(cv.imread(dest_path, -1), cv.COLOR_BGR2RGB)
 height, width, _ = source_img.shape
@@ -140,4 +143,5 @@ for i in range(height):
             pixel_color = candy_change_type_dict[pixel_change_type]
             empty[i, j] = pixel_color
 
-cv.imwrite("../21_determine_change_type/change_type_candy/out_refine50.png", cv.cvtColor(empty, cv.COLOR_RGB2BGR))
+out_change_type_path= '../21_determine_change_type/change_type_candy/bs_12/out_'+model_folder_name+'.png'
+cv.imwrite(out_change_type_path, cv.cvtColor(empty, cv.COLOR_RGB2BGR))

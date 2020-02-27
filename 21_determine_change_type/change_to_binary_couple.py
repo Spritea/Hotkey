@@ -3,13 +3,13 @@ from pathlib import Path
 import natsort
 from tqdm import tqdm
 
-GT_Path = Path("change_type_candy")
+GT_Path = Path("change_type_candy/bs_12")
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
     GT_Str.append(str(i))
 
-out_prefix="binary_change_type/"
+out_prefix="binary_change_type/bs_12/"
 for k in tqdm(range(len(GT_Str))):
     pic=cv.imread(GT_Str[k])
     grey=cv.cvtColor(pic,cv.COLOR_BGR2GRAY)

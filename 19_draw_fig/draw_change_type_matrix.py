@@ -35,12 +35,14 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Land class change
     print(cm)
     # plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.imshow(cm, cmap=cmap)
-    plt.title(title)
-    plt.colorbar()
+    plt.title(title,fontsize=20)
+    # plt.colorbar()
+    cb=plt.colorbar()
+    cb.ax.tick_params(labelsize=20)
     tick_marks = np.arange(len(classes))
     # plt.xticks(tick_marks, classes, rotation=45)
-    plt.xticks(tick_marks, classes)
-    plt.yticks(tick_marks, classes)
+    plt.xticks(tick_marks, classes,fontsize=20)
+    plt.yticks(tick_marks, classes,fontsize=20)
     fmt = '.2f' if normalize else 'd'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
@@ -48,12 +50,12 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Land class change
         # plt.text(j, i, format(cm[i, j], fmt),va="center",ha="center",
         #                   color="white" if cm[i, j] > thresh else "black")
         # 下面这个搭配cmap=plt.cm.viridis使用
-        plt.text(j, i, format(cm[i, j], fmt),va="center",ha="center",
-                          color="white")
+        plt.text(j, i, format(cm[i, j], fmt), va="center", ha="center",
+                 color="black" if cm[i, j] == cm.max() else "white", fontsize=16)
 
     # plt.tight_layout()
-    plt.ylabel('Source image')
-    plt.xlabel('Destination image')
+    plt.ylabel('Source image',fontsize=20)
+    plt.xlabel('Destination image',fontsize=20)
 
 t=time.time()
 GT_path='../16_find_compact/SCPA_WC/large/color/fcn8s/0_pred.png'
@@ -61,7 +63,7 @@ PRED_path='../16_find_compact/SCPA_WC/large/color/fcn8s/1_pred.png'
 label_values_RGB_SCPA_WC=[[0,0,0], [128,0,0],[0,128,0],[128,128,0],[0,0,128],[128,0,128],[0,128,128]]
 gt,pred=img_to_label_list_not_for_change_type(GT_path,PRED_path,label_values_RGB_SCPA_WC)
 cm=confusion_matrix(gt,pred)
-class_str_list=['Backgroung','Farmland','Bare land','Industrial area','Parking area','Residential area','Water body']
+class_str_list=['Background','Farmland','Bare land','Industrial','Parking','Residential','Water']
 plot_confusion_matrix(cm,classes=class_str_list)
 tt=time.time()-t
 print('Time: %f'%tt)
