@@ -35,7 +35,7 @@ def compute_one(img_path,gt_path):
     gt = util.reverse_one_hot(util.one_hot_it(gt, label_values))
     output_image = util.reverse_one_hot(util.one_hot_it(out, label_values))
     running_metrics_val.update(gt, output_image)
-IMG_Path='../21_determine_change_type/binary_change_type/bs_12/out_refine50.png'
+IMG_Path='../21_determine_change_type/binary_change_type/bs_12/out_can.png'
 GT_Path='../21_determine_change_type/binary_change_type/out_test_filter_ps.png'
 compute_one(IMG_Path,GT_Path)
 acc, cls_pre, cls_rec, cls_f1, cls_iu, hist,my_f1 = running_metrics_val.get_scores()

@@ -44,7 +44,7 @@ def combine_one(imgs_list, img_path, imgwidth, imgheight):
 one_large_contain_small = 49
 # 这个是一张大图包括多少张小图
 
-model_folder_name='dplv3p'
+model_folder_name='can'
 IMG_Path = Path("SCPA_WC/bs12/small/"+model_folder_name)
 refer_large_img = cv.imread("SCPA_WC/test_gt/color/2002-test.png")
 height, width, _ = refer_large_img.shape
