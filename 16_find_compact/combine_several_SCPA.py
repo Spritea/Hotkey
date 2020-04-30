@@ -38,7 +38,7 @@ def combine_one(imgs_list, img_path, imgwidth, imgheight):
 
 one_large_contain_small = 49
 # 这个是一张大图包括多少张小图
-IMG_Path = Path("SCPA_WC/small/frrnb")
+IMG_Path = Path("../16_find_compact/SCPA_WC/CAN_my/bs_20_epoch_100_val_interval_1000/small")
 refer_large_img = cv.imread("SCPA_WC/test_gt/color/2002-test.png")
 height, width, _ = refer_large_img.shape
 IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
@@ -55,6 +55,6 @@ for k in tqdm(range(large_number)):
     for j in range(id_start,id_stop):
         pic_small.append(cv.cvtColor(cv.imread(IMG_Str[j], cv.IMREAD_COLOR), cv.COLOR_BGR2RGB))
     id_start+=one_large_contain_small
-    out_path_prefix = "SCPA_WC/large/color/frrnb/"
+    out_path_prefix = "../16_find_compact/SCPA_WC/CAN_my/bs_20_epoch_100_val_interval_1000/large/"
     out_name = str(k)+ '_pred.png'
     combine_one(pic_small, out_name, width, height)

@@ -3,7 +3,7 @@ from pathlib import Path
 import natsort
 from tqdm import tqdm
 
-GT_Path = Path("change_type_candy/bs_12")
+GT_Path = Path("change_type_candy/bs_12/test")
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for i in GT_File:
