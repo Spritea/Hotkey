@@ -4,6 +4,7 @@ import numpy as np
 import time
 from pathlib import Path
 import natsort
+from tqdm import tqdm
 
 from metrics_my import runningScore
 
@@ -25,28 +26,30 @@ def compute_one(img_path, gt_path):
     # val_gt_erode paired with [0,0,0]label value
     # label order: R G B
     # num_classes = len(label_values)
-    gt = util.reverse_one_hot(util.one_hot_it(gt, label_scpa_segment_RGB))
-    output_image = util.reverse_one_hot(util.one_hot_it(out, label_scpa_segment_RGB))
+    gt = util.reverse_one_hot(util.one_hot_it(gt, label_values))
+    output_image = util.reverse_one_hot(util.one_hot_it(out, label_values))
     running_metrics_val.update(gt, output_image)
 
-IMG_Path = Path("../16_find_compact/SCPA_WC/bs12/large/color/dplv3p")
+IMG_Path = Path("../16_find_compact/GID/06_train38_v2/CAN50/large")
 IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
 IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
 
-GT_Path = Path("../16_find_compact/SCPA_WC/test_gt/color")
+GT_Path = Path("..\\16_find_compact\GID\\06_train38_v2\\test_gt")
 GT_File = natsort.natsorted(list(GT_Path.glob("*.png")), alg=natsort.PATH)
 GT_Str = []
 for j in GT_File:
     GT_Str.append(str(j))
 t = time.time()
-running_metrics_val = runningScore(7)
+running_metrics_val = runningScore(8)
 # label_values = [[255, 255, 255], [0, 0, 255], [0, 255, 255], [0, 255, 0], [255, 255, 0], [255, 0, 0]]
 # label_values = [[255, 255, 255], [0, 0, 255], [0, 255, 255], [0, 255, 0], [255, 255, 0], [255, 0, 0], [0, 0, 0]]
-label_scpa_segment_RGB = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128], [0, 128, 128]]
+# label_scpa_segment_RGB = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128], [0, 128, 128]]
+label_GID_7class_RGB=[[0,0,0],[150,250,0],[0,200,0],[200,0,200],[250,200,0],[200,0,0],[250,150,150],[0,0,200]]
+label_values=label_GID_7class_RGB
 
-for k in range(len(IMG_Str)):
+for k in tqdm(range(len(IMG_Str))):
     compute_one(IMG_Str[k], GT_Str[k])
 
 acc, cls_pre, cls_rec, cls_f1, cls_iu, hist, my_f1 = running_metrics_val.get_scores()

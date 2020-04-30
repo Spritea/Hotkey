@@ -33,12 +33,12 @@ def slice_slide_one(img_path):
                 end=2
             a = im.crop(box)
             first_name=str(Path(img_path).stem).zfill(4)
-            a.save(os.path.join("SCPA-WC/source_small/val_gt/", first_name+"%04d.png" % k))
+            a.save(os.path.join("GID\\7class\\train38_val3_v2_small\\val\\", first_name+"%04d.png" % k))
             k += 1
 
 
-IMG_Path = Path("SCPA-WC/source/val_gt")
-IMG_File = natsort.natsorted(list(IMG_Path.glob('*.png')))
+IMG_Path = Path("GID\\7class\\train38_val3_v2\\val")
+IMG_File = natsort.natsorted(list(IMG_Path.glob('*.tif')))
 IMG_Str = []
 for i in IMG_File:
     IMG_Str.append(str(i))
