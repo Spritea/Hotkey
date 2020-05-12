@@ -30,7 +30,7 @@ def compute_one(img_path, gt_path):
     output_image = util.reverse_one_hot(util.one_hot_it(out, label_values))
     running_metrics_val.update(gt, output_image)
 
-IMG_Path = Path("../16_find_compact/GID/06_train38_v2/CAN50/large")
+IMG_Path = Path("../16_find_compact/GID/07_train38_v2_4band/CAN50/large")
 IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
 IMG_Str = []
 for i in IMG_File:

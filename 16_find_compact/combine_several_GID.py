@@ -38,7 +38,7 @@ def combine_one(imgs_list, img_path, imgwidth, imgheight):
 
 one_large_contain_small = 210
 # 这个是一张大图包括多少张小图
-IMG_Path = Path("GID\\06_train38_v2\CAN50\small")
+IMG_Path = Path("GID/07_train38_v2_4band/CAN50/small")
 refer_large_img = cv.imread("GID\\06_train38_v2\\test_gt\GF2_PMS1_E113.9_N30.8_20150902_L1A0001015646-MSS1_label.png")
 height, width, _ = refer_large_img.shape
 IMG_File = natsort.natsorted(list(IMG_Path.glob("*.png")), alg=natsort.PATH)
@@ -55,6 +55,6 @@ for k in tqdm(range(large_number)):
     for j in range(id_start,id_stop):
         pic_small.append(cv.cvtColor(cv.imread(IMG_Str[j], cv.IMREAD_COLOR), cv.COLOR_BGR2RGB))
     id_start+=one_large_contain_small
-    out_path_prefix = "GID\\06_train38_v2\CAN50\large\\"
+    out_path_prefix = "GID/07_train38_v2_4band/CAN50/large/"
     out_name = str(k)+ '_pred.png'
     combine_one(pic_small, out_name, width, height)
