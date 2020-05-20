@@ -4,7 +4,7 @@ import numpy as np
 
 source_path = "../16_find_compact/SCPA_WC/train_gt/precode/2002-train.png"
 dest_path = "../16_find_compact/SCPA_WC/train_gt/precode/2009-train.png"
-source_img = cv.cvtColor(cv.imread(source_path, ), cv.COLOR_BGR2RGB)
+source_img = cv.cvtColor(cv.imread(source_path, -1), cv.COLOR_BGR2RGB)
 dest_img = cv.cvtColor(cv.imread(dest_path, -1), cv.COLOR_BGR2RGB)
 height, width, _ = source_img.shape
 
@@ -17,6 +17,8 @@ for k in range(len(class_list)):
     if class_list[k][0] == class_list[k][1] and class_list[k][0] > 0:
         class_list_reduce.remove(class_list[k])
 color_list_reduce = color_list[0:change_type_count]
+#candy_color_list的(0,0,0)是没用上的
+#实际起作用的是empty[i, j] = (0, 0, 0)这句
 candy_color_list = [(0, 0, 0), (255, 250, 250), (248, 248, 255), (211, 211, 211),
                     (255 ,99 ,71), (255, 250, 240), (139 ,69 ,19), (250, 240, 230),
                     (0, 206, 209), (255,215,0), (205,92,92), (255, 228, 196),
